@@ -22,6 +22,8 @@
     yaml-mode
     flymake
     flymake-python-pyflakes
+    virtualenv
+    nose
     ;; flymake-node-jshint,
     swbuff
     ;;font-lock
