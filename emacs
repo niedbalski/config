@@ -8,7 +8,6 @@
 
 
 ;;Package requirements
-(require 'cl) ;; :( require common-lisp
 (require 'package)
 
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -44,10 +43,11 @@
       (package-install p))))
 
 ;; Not available on repos
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(add-to-list 'load-path "~/.emacs.d/")
+
 (require 'flymake-node-jshint)
 (require 'font-lock)
-
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 ;; Custom directives
 (setq default-major-mode 'text-mode)
