@@ -21,13 +21,13 @@
     markdown-mode
     yaml-mode
     flymake
+    flymake-python-pyflakes
     ;; flymake-node-jshint,
     swbuff
     ;;font-lock
     autoinsert
     )
   "A list of packages to ensure are installed at launch.")
-
 
 (defun my-packages-installed-p ()
   (cl-loop for p in my-packages
@@ -79,6 +79,13 @@
 ;;AUTO-FILL-MODE
 (auto-fill-mode 1)
 (setq fill-column 79)
+
+;; Some python hooks
+(require 'flymake-python-pyflakes)
+
+(setq flymake-python-pyflakes-executable "flake8")
+(add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
+
 
 ;; (add-hook 'python-mode-hook '(lambda () (highlight-lines-matching-regexp
 ;;                                       ".\\{81\\}" 'hi-yellow)))
