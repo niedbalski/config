@@ -10,7 +10,7 @@
 ;;Package requirements
 (require 'package)
 
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 
@@ -19,11 +19,14 @@
 (defvar my-packages
   '(git
     markdown-mode
+    ;;sr-speedbar
+    jenkins-watch
     yaml-mode
     flymake
     flymake-python-pyflakes
     virtualenv
     nose
+    pydoc-info
     ;; flymake-node-jshint,
     swbuff
     ;;font-lock
@@ -50,6 +53,8 @@
 
 (require 'flymake-node-jshint)
 (require 'font-lock)
+(require 'pydoc-info)
+(require 'jenkins-watch)
 
 ;; Custom directives
 (setq default-major-mode 'text-mode)
@@ -88,7 +93,9 @@
 (setq flymake-python-pyflakes-executable "flake8")
 (add-hook 'python-mode-hook 'flymake-python-pyflakes-load)
 
-
+;; Speedbar
+;; (sr-speedbar-open)
+;; (setq speedbar-use-images nil)
 ;; (add-hook 'python-mode-hook '(lambda () (highlight-lines-matching-regexp
 ;;                                       ".\\{81\\}" 'hi-yellow)))
 
@@ -238,3 +245,8 @@
       (list "pep8"  (list local-file))))
   (add-to-list 'flymake-allowed-file-name-masks
              '("\\.py\\'" flymake-pyflakes-init)))
+
+;;Jenkins watch start
+(require 'jenkins-watch)
+(setq jenkins-api-url "https://jenkins.nimbic.com/view/nView/job/nview-tests/api/xml")
+(jenkins-watch-start)
