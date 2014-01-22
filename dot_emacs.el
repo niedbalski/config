@@ -6,7 +6,6 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-
 ;;Package requirements
 (require 'package)
 
@@ -17,9 +16,10 @@
 (package-initialize)
 
 (defvar my-packages
-  '(git
+  '(magit
     markdown-mode
-    ;;sr-speedbar
+    mtgox
+    request
     jenkins-watch
     yaml-mode
     flymake
@@ -27,7 +27,6 @@
     virtualenv
     nose
     pydoc-info
-    ;; flymake-node-jshint,
     swbuff
     ;;font-lock
     autoinsert
@@ -60,7 +59,6 @@
 (setq default-major-mode 'text-mode)
 (setq tab-width 4)
 
-;; define the mail and name
 (setq user-mail-address "niedbalski@gmail.com")
 (setq user-full-name "Jorge Niedbalski R.")
 
@@ -223,7 +221,11 @@
  '(custom-safe-themes
    (quote
     ("08eb36b2ce2dcc5aceaed5e0be492661990dcc860d9148b748c008ed952cf249" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(safe-local-variable-values
+   (quote
+    ((eval jenkins-watch-start)
+     (eval setq jenkins-api-url "https://jenkins.nimbic.com/view/nView/job/nview-tests/api/xml")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -246,7 +248,37 @@
   (add-to-list 'flymake-allowed-file-name-masks
              '("\\.py\\'" flymake-pyflakes-init)))
 
-;;Jenkins watch start
-(require 'jenkins-watch)
-(setq jenkins-api-url "https://jenkins.nimbic.com/view/nView/job/nview-tests/api/xml")
-(jenkins-watch-start)
+;;(setq jenkins-api-url 'https://jenkins.nimbic.com/view/nView/job/nview-tests/api/xml)
+;;           (eval . (jenkins-watch-start))
+
+
+;; Evaluate dir-locals
+(setq nwebstack-path "/home/aktive/nwebstack.git")
+
+(add-hook
+ 'before-hack-local-variables-hook'
+ (lambda ()
+   (when buffer-file-name
+     ( let ((dir (file-name-directory buffer-file-name)))
+       (if (string-equal dir nwebstack-path)
+           (progn
+             (setq enable-local-eval t)
+             (setq enable-local-variables t))
+           (progn
+             (setq enable-local-eval nil)
+             (setq enable-local-variables nil)))))))
+
+
+;;Git handling of.
+(require 'magit)
+
+(global-set-key (kbd "M-s") 'magit-status)
+(add-hook 'magit-mode-hook
+          '(lambda()
+             (progn
+               (local-set-key (kbd "c") 'magit-commit)
+               (local-set-key (kbd "d") 'magit-diff-working-tree)))))
+
+
+(require 'mtgox)
+(mtgox-mode 1)
