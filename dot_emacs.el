@@ -271,8 +271,8 @@
 
 ;;Git handling of.
 (require 'magit)
-
 (global-set-key (kbd "M-s") 'magit-status)
+
 (add-hook 'magit-mode-hook
           '(lambda()
              (progn
